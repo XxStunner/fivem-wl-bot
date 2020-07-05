@@ -3,16 +3,18 @@ module.exports = [
         title: 'Nome completo:',
         type: 'string',
         limit: 40,
+        timer: 1
     },
     {
         title: 'Idade:',
         type: 'number',
         limit: 2,
-        minimum: 15
+        minimum: 15,
+        timer: 1
     },
     {
         title: 'Possui microfone ?',
-        type: 'string',
+        type: 'multiple',
         answers: [
             {
                 title: 'Sim',
@@ -21,6 +23,7 @@ module.exports = [
             {
                 title: 'Não'
             }
-        ]
+        ],
+        timer: 1
     },
 ]

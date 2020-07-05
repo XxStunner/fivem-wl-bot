@@ -45,41 +45,26 @@ module.exports = class Whitelist {
 
     sendWelcomeMessage() {
         return new Promise((resolve, reject) => {
-            const embed = new MessageEmbed()
-                .setTitle('Play Action - Whitelist')
-                .setColor(0xEf2172)
-                .setThumbnail('http://brasilplayaction.com.br/cdn/misc/player.jpg')
-                .setDescription(`
-                    Olá <@${this.message.author.id}> ! Tudo bem ?
-                    
-                    Primeiramente agradecemos o seu interesse em fazer parte da nossa cidade. Ficaremos muito felizes em ter você conosco.
-                    
-                    Para liberação do seu passaporte, pedimos que preencha algumas informações que serão solicitadas a seguir. 
-                    
-                    As perguntas relacionadas as regras da cidade são simples e objetivas, que nos ajudam a manter uma convivência saudável entre nossos moradores. Recomendamos que leia atentamente as regras do servidor antes mesmo de fazer a whitelist: http://brasilplayaction.com.br/index.php?/forum/34-rules-of-server/
-                    
-                    Qualquer dúvida estamos a disposição no Discord, onde será divulgado o resultado da sua solicitação de 
-                    passaporte.
-                    
-                    Para pegar o ID, utilize nosso launcher: https://bit.ly/2Zv31go
-                    
-                    Tudo pronto, para começar digite:
-                    
-                    \`\`\`\iniciar\`\`\`\
-        
-                    Boa sorte!
-                `)
+            const embed = this.getEmbed().setDescription(`
+                Olá <@${this.message.author.id}> ! Tudo bem ?
+                
+                ${config.welcomeMessage}
+            `)
+
             this.channel.send({
                 content: `<@${this.message.author.id}>`,
                 embed
             })
-    
-            this.client.on('message', message => {
+
+            const readMessage = message => {
                 if(message.content === 'iniciar') {
-                    embed.delete()
+                    this.channel.bulkDelete(99)
+                    this.client.removeListener('message', readMessage)
                     resolve()
-                }
-            })
+                } 
+            }
+    
+            this.client.on('message', readMessage)
 
             setTimeout(reject, config.startCooldown * 60000)
         })
@@ -89,17 +74,49 @@ module.exports = class Whitelist {
         try {
             await this.sendWelcomeMessage()
             
-            for(let question of questions) {
-                // const embed = 
-                console.log(question)
+            for(let i = 0; i < questions.length; i++) {
+                const question = questions[i]
+                
+                const embed = this.getEmbed().setDescription(`
+                    ${config.serverName}
+    
+                    ${question.title}
+
+                    Você tem ${question.timer} minutos para responder essa pergunta.
+                `)
+    
+                this.channel.send(embed)
+    
+                this.answers[i] = await this.getQuestionResponse(question)
             }
 
+            this.reviewWhitelist()
         } catch (err) {
             console.error(err)
             this.channel.delete()
             this.message.reply("você demorou mais de 1 minuto para responder a pergunta!")
             this.emit('finished', false)
         }
+    }
+
+    getQuestionResponse(question) {
+        return new Promise((resolve, reject) => {
+            const readMessage = message => {
+                if(message.content) {
+                    // if(question.type === 'number') {
+
+                    // } 
+                    
+                    this.channel.bulkDelete(99)
+                    this.client.removeListener('message', readMessage)
+                    resolve({ answer: message.content })
+                } 
+            }
+    
+            this.client.on('message', readMessage)
+
+            setTimeout(reject, question.timer * 60000)
+        })
     }
 
     async reviewWhitelist() {
@@ -109,6 +126,13 @@ module.exports = class Whitelist {
             answers: this.answers,
             grade: this.grade
         })
+    }
+
+    getEmbed() {
+        return new MessageEmbed()
+            .setTitle(`${config.serverName} - Whitelist`)
+            .setColor(config.embedColor)
+            .setThumbnail(config.serverIcon)
     }
 
     on(eventName, eventMethod) {

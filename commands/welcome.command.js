@@ -1,9 +1,10 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js')
 
-module.exports = msg => {
+module.exports = ({ message }) => {
     const embed = new MessageEmbed()
         .setTitle('Play Action - Whitelist')
         .setColor(0xEf2172)
+        .setThumbnail('http://brasilplayaction.com.br/cdn/misc/player.jpg')
         .setDescription(`
             Olá !
             Tudo bem ?
@@ -21,9 +22,11 @@ module.exports = msg => {
             
             Tudo pronto, vamos começar ?
 
-            Digite: **!whitelist**
+            Digite: 
             
+            \`\`\`\!whitelist\`\`\`\
+
             Boa sorte!
-        `);
-    msg.channel.send(embed);
+        `)
+    message.channel.send(embed)
 }

@@ -2,19 +2,22 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 
 const commands = {
-	'wm': require('./commands/welcome')
+	'wm': require('./commands/welcome.command'),
+	'whitelist': require('./commands/whitelist.command')
 }
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`)
 })
 
-client.on("message", msg => {
-	const message = msg.content;
-	if(message.charAt(0) === "!") {
-		const command = message.substr(1);
+client.on("message", message => {
+	const content = message.content;
+	if(content.charAt(0) === "!") {
+		const command = content.substr(1);
 		if(typeof commands[command] === 'function') {
-			commands[command](msg)
+			commands[command]({ message, client })
+		} else {
+			message.reply("comando não encontrado!")
 		}
 	}
 })

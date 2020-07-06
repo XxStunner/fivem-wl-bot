@@ -16,9 +16,7 @@ client.on("message", message => {
 		const command = content.substr(1);
 		if(typeof commands[command] === 'function') {
 			commands[command]({ message, client })
-		} else {
-			message.reply("comando não encontrado!")
-		}
+		} 
 	}
 })
 

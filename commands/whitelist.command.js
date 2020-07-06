@@ -13,7 +13,7 @@ module.exports = ({ client, message }) => {
 		})
 		
 		whitelist.on('finished', (data) => {
-			console.log(data)
+			console.log(data) // @todo: log data into mongodb.
 			delete whitelists[message.author.id]
 		})
 		

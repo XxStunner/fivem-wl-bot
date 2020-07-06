@@ -1,7 +1,6 @@
 module.exports = [
     {
         title: 'Nome completo:',
-        type: 'string',
         limit: 40,
         timer: 1
     },
@@ -14,14 +13,15 @@ module.exports = [
     },
     {
         title: 'Possui microfone ?',
-        type: 'multiple',
         answers: [
             {
                 title: 'Sim',
+                reaction: '👍',
                 correct: true
             },
             {
-                title: 'Não'
+                title: 'Não',
+                reaction: '👎',
             }
         ],
         timer: 1

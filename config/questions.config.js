@@ -26,4 +26,9 @@ module.exports = [
         ],
         timer: 1
     },
+    {
+        title: 'ID:',
+        type: 'id',
+        timer: 1
+    },
 ]

@@ -122,6 +122,7 @@ module.exports = class Whitelist {
                     resolve({ 
                         answer: message.content,
                         correct: true,
+                        question,
                         valid
                     })
                 } 
@@ -139,14 +140,17 @@ module.exports = class Whitelist {
             const reactionsFilter = (reaction, user) => question.answers.map(answer => answer.reaction).includes(reaction.emoji.name) && user.id === this.message.author.id
             message.awaitReactions(reactionsFilter, { max: 1, time: timer, errors: ['time'] })
                 .then(collected => {
+                    this.channel.bulkDelete(99)
                     const reaction = collected.first()
                     resolve({ 
                         ...question.answers.find(answer => answer.reaction === reaction.emoji.name),
+                        question,
                         valid: true 
                     })
                 })
                 .catch(() => {
                     resolve({ 
+                        question,
                         valid: false 
                     })
                 })
@@ -162,7 +166,7 @@ module.exports = class Whitelist {
             this.sendSuccessMessage()
             if(config.roles.whitelisted) {
                 this.addRoleToUser(config.roles.whitelisted)
-                this.setGameWhitelist(1, 1)
+                this.setGameWhitelist(this.answers.find(answer => answer.question.type === 'id').answer, 1)
             }
         } else {
             this.sendFailureMessage()
@@ -190,7 +194,7 @@ module.exports = class Whitelist {
     setGameWhitelist(userId, whitelisted) {
         return new Promise((resolve, reject) => {
             const dbConnection = Game.getDatabaseConnection()
-            dbConnection.query(`UPDATE ${config.databaseTable} SET ${config.databaseColumn} = ${whitelisted} WHERE user_id = ${userId}`, (err, results) => {
+            dbConnection.query(`UPDATE ${config.databaseTable} SET ${config.databaseColumn} = ${whitelisted} WHERE id = ${userId}`, (err, results) => {
                 if(err) {
                     return reject(err)
                 }

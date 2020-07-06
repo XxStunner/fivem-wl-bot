@@ -12,14 +12,30 @@ module.exports = ({ client, message }) => {
 			client
 		})
 		
-		whitelist.on('finished', (data) => {
-			console.log(data) // @todo: log data into mongodb.
+		whitelist.on('finished', (whitelist) => {
 			delete whitelists[message.author.id]
+			const data = {
+				whitelist,
+				date: new Date
+			}
+
+			console.log(data) // @todo: log data into mongodb.
+			
+			if(!data.passed) {
+
+				if(typeof usersCooldown[message.author.id] === 'undefined') {
+					usersCooldown[message.author.id] = [data]
+					return
+				}
+
+				usersCooldown[message.author.id].push(data)
+			}
 		})
 		
 		whitelists[message.author.id] = whitelist
 	} else {
 		message.reply("você só pode fazer uma whitelist por vez!")
 	}
+
 	message.delete()
 }

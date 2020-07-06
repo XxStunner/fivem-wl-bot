@@ -1,6 +1,7 @@
 const questions = require('../config/questions.config')
 const config = require('../config/whitelist.config')
 const { MessageEmbed } = require('discord.js')
+const Game = require('../classes/game.class')
 
 module.exports = class Whitelist {
     events = {}
@@ -161,6 +162,7 @@ module.exports = class Whitelist {
             this.sendSuccessMessage()
             if(config.roles.whitelisted) {
                 this.addRoleToUser(config.roles.whitelisted)
+                this.setGameWhitelist(1, 1)
             }
         } else {
             this.sendFailureMessage()
@@ -183,6 +185,19 @@ module.exports = class Whitelist {
         if(role) {
             return this.message.member.roles.add(role)
         }
+    }
+
+    setGameWhitelist(userId, whitelisted) {
+        return new Promise((resolve, reject) => {
+            const dbConnection = Game.getDatabaseConnection()
+            dbConnection.query(`UPDATE ${config.databaseTable} SET ${config.databaseColumn} = ${whitelisted} WHERE user_id = ${userId}`, (err, results) => {
+                if(err) {
+                    return reject(err)
+                }
+
+                return resolve(results)
+            })
+        })
     }
 
     async sendSuccessMessage() {

@@ -10,7 +10,7 @@ module.exports = {
                 NODE_ENV: "PROD",
             },
             // instances  : 8,
-            // exec_mode  : "cluster"
+            exec_mode  : "fork"
         }
     ]
   }

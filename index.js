@@ -18,6 +18,7 @@ client.on("ready", () => {
 client.on("message", message => {
 	const channel = message.guild.channels.cache.find(channel => channel.name === config.workChannel)
 	if(channel && channel.id === message.channel.id) { 
+        const content = message.content 
         if(content.charAt(0) === "!") {
             const command = content.substr(1).toLowerCase()
             if(typeof commands[command] === 'function') {

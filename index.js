@@ -29,7 +29,7 @@ if((process.env.ENV === 'PROD' || process.env.CLUSTERING === "TRUE") && cluster.
     
         // to receive messages from worker process
         workers[i].on('message', function(message) {
-            console.log(message)
+            // console.log(message)
         })
     }
     

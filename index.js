@@ -4,22 +4,27 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const leaveEvent = require('./events/leave.event')
+const config = require('./config/whitelist.config')
 
 const commands = {
 	'wm': require('./commands/welcome.command'),
 	'whitelist': require('./commands/whitelist.command')
 }
+
 client.on("ready", () => {
     console.log(`[PA] BOT ONLINE WITH NAME: ${client.user.tag}!`)
 })
 
 client.on("message", message => {
-    const content = message.content
-    if(content.charAt(0) === "!") {
-        const command = content.substr(1).toLowerCase()
-        if(typeof commands[command] === 'function') {
-            commands[command]({ message, client })
-        } 
+	const channel = message.guild.channels.cache.find(channel => channel.name === config.workChannel)
+	if(channel && channel.id === message.channel.id) { 
+        if(content.charAt(0) === "!") {
+            const command = content.substr(1).toLowerCase()
+            if(typeof commands[command] === 'function') {
+                commands[command]({ message, client })
+            } 
+        }
+        message.delete()
     }
 })
 

@@ -65,7 +65,7 @@ module.exports = class Whitelist {
             })
 
             const readMessage = async message => {
-                if(message.content === 'iniciar' && message.channel.id === this.channel.id) {
+                if(message.content.toLowerCase() === 'iniciar' && message.channel.id === this.channel.id) {
                     try {
                         await this.channel.bulkDelete(99)
                         this.client.removeListener('message', readMessage)

@@ -16,7 +16,7 @@ client.on("ready", () => {
 client.on("message", message => {
     const content = message.content
     if(content.charAt(0) === "!") {
-        const command = content.substr(1)
+        const command = content.substr(1).toLowerCase()
         if(typeof commands[command] === 'function') {
             commands[command]({ message, client })
         } 

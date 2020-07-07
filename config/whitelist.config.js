@@ -1,5 +1,5 @@
 module.exports = {
-    minimumGrade: 8,
+    minimumGrade: 9,
     maximumTime: 5,
     maximumTries: 2,
     cooldown: 480,
@@ -30,6 +30,13 @@ module.exports = {
             Para entrar, baixe nosso launcher: https://bit.ly/2Zv31go.
 
             Caso você tenha alguma dúvida, sinta-se livre para utilizar o canal de dúvidas e abuse do /ajuda in-game.
+
+            Aproveitando, conheça nosso fórum e siga-nos em nossas redes sociais:
+
+            - Fórum: http://brasilplayaction.com.br/
+            - Facebook: https://www.facebook.com/playactionrp
+            - Instagram: http://instagram.com/playactionrp
+            - Youtube: https://www.youtube.com/channel/UCa-buRqBUqgphVEV0GvUoVg
         `,
         failure: `
             Leia nossas regras nos canais de regras e tente novamente.

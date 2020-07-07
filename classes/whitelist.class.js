@@ -77,18 +77,20 @@ module.exports = class Whitelist {
             for(let i = 0; i < questions.length; i++) {
                 const question = questions[i]
                 
-                const embed = this.getEmbed().setDescription(`
-                    ${config.serverName}
-    
-                    ${question.title}
+                const embed = this.getEmbed().
+                    setDescription(`
+                        ${config.serverName}
+        
+                        ${question.title}
 
-                    Você tem ${question.timer} minutos para responder essa pergunta.
-                `)
+                        ${question.answers ? question.answers.map(answer => `${answer.reaction} - ${answer.title}`).join('\n\n') : ``}
+                    `)
+                    .setFooter(`Você tem ${question.timer} minutos para responder essa pergunta.`)
     
                 const embedMessage = await this.channel.send(embed)
 
                 if(question.answers) {
-                    await Promise.all(question.answers.map(answer => embedMessage.react(answer.reaction)))
+                    await Promise.all(question.answers.map(async answer => embedMessage.react(answer.reaction)))
                 }
 
                 this.answers[i] = await (question.answers ? this.getReactionQuestionAnswer(question, embedMessage) : this.getTextQuestionAnswer(question))
@@ -109,21 +111,20 @@ module.exports = class Whitelist {
     getTextQuestionAnswer(question) {
         return new Promise((resolve, reject) => {
             const readMessage = message => {
-                if(message.content) {
+                if(message.content && message.channel.id === this.channel.id) {
                     this.channel.bulkDelete(99)
                     this.client.removeListener('message', readMessage)
-                    let valid = true
+                    let correct = true
                     
                     if(question.type === 'number') {
                         const reg = new RegExp(/^\d+$/)
-                        valid = reg.test(message.content)
+                        correct = reg.test(message.content)
                     }
 
                     resolve({ 
                         answer: message.content,
-                        correct: true,
+                        correct,
                         question,
-                        valid
                     })
                 } 
             }
@@ -135,7 +136,7 @@ module.exports = class Whitelist {
     }
 
     getReactionQuestionAnswer(question, message) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             const timer = question.timer * 60000
             const reactionsFilter = (reaction, user) => question.answers.map(answer => answer.reaction).includes(reaction.emoji.name) && user.id === this.message.author.id
             message.awaitReactions(reactionsFilter, { max: 1, time: timer, errors: ['time'] })
@@ -145,15 +146,9 @@ module.exports = class Whitelist {
                     resolve({ 
                         ...question.answers.find(answer => answer.reaction === reaction.emoji.name),
                         question,
-                        valid: true 
                     })
                 })
-                .catch(() => {
-                    resolve({ 
-                        question,
-                        valid: false 
-                    })
-                })
+                .catch(reject)
         })
     }
 
@@ -221,7 +216,7 @@ module.exports = class Whitelist {
     }
 
     async sendFailureMessage() {
-        const channel = this.client.guild.channels.cache.find(channel => channel.name === config.successChannel)
+        const channel = this.message.guild.channels.cache.find(channel => channel.name === config.failureChannel)
         if(!channel) {
             throw Error('Failure channel not found!')
         }
@@ -230,19 +225,18 @@ module.exports = class Whitelist {
             .setDescription(`
                 Você foi reprovado em nossa whitelist <@${this.message.author.id}>!
                 
-                Nota: ${this.grade.toFixed()} / Mínimo: ${config.minimumGrade}
+                Acertou: ${this.correctAnswers.length} / **${questions.length}**
 
                 ${config.messages.failure}
-
-                **Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas!
             `)
+            .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas!`)
 
         channel.send(embed)
     }
 
     async getUserGrade() {
-        const correctAnswers = this.answers.filter(answer => answer.correct)
-        return Math.round(questions.length / correctAnswers.length * 10)
+        this.correctAnswers = this.answers.filter(answer => answer.correct)
+        return Math.round(this.correctAnswers.length / questions.length * 10)
     }
 
     getEmbed() {

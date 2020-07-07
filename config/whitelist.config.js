@@ -39,7 +39,7 @@ module.exports = {
             - Youtube: https://www.youtube.com/channel/UCa-buRqBUqgphVEV0GvUoVg
         `,
         failure: `
-            Leia nossas regras nos canais de regras e verifique seu ID.
+            Leia nossas regras nos canais de regras.
         `,
         idNotFound: `
             ID não encontrado no servidor!

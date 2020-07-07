@@ -143,6 +143,7 @@ module.exports = [
     {
         title: 'Nome completo (personagem):',
         limit: 40,
+        type: 'username',
         timer: 1
     },
     {

@@ -18,10 +18,10 @@ module.exports = class Whitelist {
         try {
             await this.createChannel()
             await this.loopTroughQuestions()
-            await this.destroy()
         } catch (err) {
             console.error(err)
         }
+        await this.destroy()
     }
 
     async createChannel() {
@@ -51,11 +51,13 @@ module.exports = class Whitelist {
 
     sendWelcomeMessage() {
         return new Promise((resolve, reject) => {
-            const embed = this.getEmbed().setDescription(`
-                Olá <@${this.message.author.id}> ! Tudo bem ?
-                
-                ${config.messages.welcome}
-            `)
+            const embed = this.getEmbed()
+                .setDescription(`
+                    Olá <@${this.message.author.id}> ! Tudo bem ?
+                    
+                    ${config.messages.welcome}
+                `)
+                .setFooter(`Você tem ${config.startCooldown} minutos para iniciar a whitelist.`)
 
             this.channel.send({
                 content: `<@${this.message.author.id}>`,
@@ -109,7 +111,6 @@ module.exports = class Whitelist {
             this.reviewWhitelist()
         } catch (err) {
             console.error(err)
-            this.channel.delete()
             this.message.reply("você demorou mais de 1 minuto para responder a pergunta!")
             this.emit('finished', false)
         }
@@ -278,7 +279,7 @@ module.exports = class Whitelist {
                 Acertou: ${this.correctAnswers.length} / **${questions.length}**
                 **${message}**
             `)
-            .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas!`)
+            .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas.`)
 
         channel.send({
             content: `<@${this.message.author.id}>`,

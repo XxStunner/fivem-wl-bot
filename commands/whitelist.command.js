@@ -19,42 +19,44 @@ const userItsNotOnCooldown = (userId) => {
  }
 
 module.exports = ({ client, message }) => {
-	const userId = message.author.id
-	if(typeof whitelists[userId] === 'undefined') {
-		if(userItsNotOnCooldown(userId)) {
-			console.log(`[PA] CREATING NEW CHANNEL FOR DISCORD: ${message.author.username}`)
-			const whitelist = new Whitelist({
-				message,
-				client
-			})
-			
-			whitelist.on('finished', (whitelist) => {
-				delete whitelists[userId]
-				const data = {
-					whitelist,
-					date: new Date
-				}
-	
-				console.log(data) // @todo: log data into mongodb.
+	const channel = message.guild.channels.cache.find(channel => channel.name === config.workChannel)
+	if(channel && channel.id === message.channel.id) {
+		const userId = message.author.id
+		if(typeof whitelists[userId] === 'undefined') {
+			if(userItsNotOnCooldown(userId)) {
+				console.log(`[PA] CREATING NEW CHANNEL FOR DISCORD: ${message.author.username}`)
+				const whitelist = new Whitelist({
+					message,
+					client
+				})
 				
-				if(!data.passed) {
-	
-					if(typeof usersCooldown[userId] === 'undefined') {
-						usersCooldown[userId] = [data]
-						return
+				whitelist.on('finished', (whitelist) => {
+					delete whitelists[userId]
+					const data = {
+						whitelist,
+						date: new Date
 					}
-	
-					usersCooldown[userId].push(data)
-				}
-			})
-			
-			whitelists[userId] = whitelist
+		
+					console.log(data) // @todo: log data into mongodb.
+					
+					if(!data.passed) {
+		
+						if(typeof usersCooldown[userId] === 'undefined') {
+							usersCooldown[userId] = [data]
+							return
+						}
+		
+						usersCooldown[userId].push(data)
+					}
+				})
+				
+				whitelists[userId] = whitelist
+			} else {
+				message.reply(`você atingiu o número máximo de tentativas, tente depois das: **${moment(usersCooldown[userId][0].date).add(config.cooldown, 'minutes').tz('America/Sao_Paulo').format(`DD/MM/YYYY [-] HH:mm`)}**`)
+			}
 		} else {
-			message.reply(`você atingiu o número máximo de tentativas, tente depois das: **${moment(usersCooldown[userId][0].date).add(config.cooldown, 'minutes').tz('America/Sao_Paulo').format(`DD/MM/YYYY [-] HH:mm`)}**`)
+			message.reply("você só pode fazer uma whitelist por vez!")
 		}
-	} else {
-		message.reply("você só pode fazer uma whitelist por vez!")
-	}
-
+	} 
 	message.delete()
 }

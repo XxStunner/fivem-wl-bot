@@ -1,5 +1,6 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
+const leaveEvent = require('./events/leave.event')
 
 const commands = {
 	'wm': require('./commands/welcome.command'),
@@ -20,4 +21,7 @@ client.on("message", message => {
 	}
 })
 
+client.on("guildMemberRemove", (member) => {
+	leaveEvent(member)
+})
 client.login("NTE2MjkwNTQ1MDczNTIwNjYw.XwDy0Q.EdkLTuSSJDFlwnHgFj2V9M_ubWY")

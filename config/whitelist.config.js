@@ -53,4 +53,5 @@ module.exports = {
     failureChannel: 'recusado',
     databaseTable: 'vrp_users',
     databaseColumn: 'whitelisted',
+    workChannel: 'whitelist'
 }

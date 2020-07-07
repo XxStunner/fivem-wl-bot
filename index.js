@@ -17,7 +17,7 @@ client.on("ready", () => {
 
 client.on("message", message => {
 	const channel = message.guild.channels.cache.find(channel => channel.name === config.workChannel)
-	if(channel && channel.id === message.channel.id) { 
+	if(channel && channel.id === message.channel.id && message.author.id !== client.user.id) { 
         const content = message.content 
         if(content.charAt(0) === "!") {
             const command = content.substr(1).toLowerCase()

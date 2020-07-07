@@ -95,7 +95,7 @@ module.exports = class Whitelist {
         
                         ${question.title}
 
-                        ${question.answers ? question.answers.map(answer => `${answer.reaction} - ${answer.title}`).join('\n\n') : ``}
+                        ${question.answers ? `${question.answers.map(answer => `${answer.reaction} - ${answer.title}`).join('\n\n')} \n\n **Obs: espere todas as reações aparecer antes de responder**` : ``}
                     `)
                     .setFooter(`Você tem ${question.timer} minutos para responder essa pergunta.`)
     
@@ -109,8 +109,7 @@ module.exports = class Whitelist {
             }
 
             this.reviewWhitelist()
-        } catch (err) {
-            console.error(err)
+        } catch {
             this.message.reply("você demorou mais de 1 minuto para responder a pergunta!")
             this.emit('finished', false)
         }
@@ -293,7 +292,7 @@ module.exports = class Whitelist {
     }
 
     async destroy() {
-        console.log('[PA] REMOVING WHITELIST')
+        console.log('[PA] REMOVING CHANNEL')
         await this.channel.delete()
         this.emit('finished', {
             answers: this.answers,

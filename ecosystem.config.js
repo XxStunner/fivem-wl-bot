@@ -9,8 +9,8 @@ module.exports = {
             env_production: {
                 NODE_ENV: "PROD",
             },
-            instances  : 8,
-            exec_mode  : "cluster"
+            // instances  : 8,
+            // exec_mode  : "cluster"
         }
     ]
   }

@@ -1,5 +1,5 @@
 module.exports = {
-    minimumGrade: 9,
+    minimumGrade: 8.5,
     maximumTime: 5,
     maximumTries: 2,
     cooldown: 480,
@@ -39,7 +39,10 @@ module.exports = {
             - Youtube: https://www.youtube.com/channel/UCa-buRqBUqgphVEV0GvUoVg
         `,
         failure: `
-            Leia nossas regras nos canais de regras e tente novamente.
+            Leia nossas regras nos canais de regras e verifique seu ID.
+        `,
+        idNotFound: `
+            ID não encontrado no servidor!
         `
     },
     roles: {

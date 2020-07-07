@@ -10,6 +10,7 @@ module.exports = class Whitelist {
     constructor({ client, message }) {
         this.client = client
         this.message = message
+        this.dbConnection = Game.getDatabaseConnection()
         this.init()
     }
 
@@ -57,7 +58,7 @@ module.exports = class Whitelist {
             })
 
             const readMessage = message => {
-                if(message.content === 'iniciar') {
+                if(message.content === 'iniciar' && message.channel.id === this.channel.id) {
                     this.channel.bulkDelete(99)
                     this.client.removeListener('message', readMessage)
                     resolve()
@@ -119,6 +120,10 @@ module.exports = class Whitelist {
                     if(question.type === 'number') {
                         const reg = new RegExp(/^\d+$/)
                         correct = reg.test(message.content)
+
+                        if(typeof question.minimum === 'number') {
+                            correct = parseInt(message.content) > question.minimum
+                        }
                     }
 
                     resolve({ 
@@ -157,19 +162,30 @@ module.exports = class Whitelist {
         this.grade = await this.getUserGrade()
         this.passedWhitelist = this.grade > config.minimumGrade
 
-        if(this.passedWhitelist) {
-            this.sendSuccessMessage()
-            if(config.roles.whitelisted) {
-                this.addRoleToUser(config.roles.whitelisted)
-                this.setGameWhitelist(this.answers.find(answer => answer.question.type === 'id').answer, 1)
+        const userId = this.answers.find(answer => answer.question.type === 'id').answer
+        const playerExists = await this.userIdExists(userId)
+
+        if(playerExists) {
+            if(this.passedWhitelist) {
+                this.sendSuccessMessage()
+                if(config.roles.whitelisted) {
+                    this.addRoleToUser(config.roles.whitelisted)
+                    this.removeRoleToUser(config.roles.unwhitelisted)
+                    this.setGameWhitelist(userId, 1)
+                }
+            } else {
+                this.sendFailureMessage()
+                if(config.roles.unwhitelisted) {
+                    this.addRoleToUser(config.roles.unwhitelisted)
+                    this.removeRoleToUser(config.roles.whitelisted)
+                }
             }
+    
+            setUserDiscordIdentifier(userId, this.message.author.id)
         } else {
-            this.sendFailureMessage()
-            if(config.roles.unwhitelisted) {
-                this.addRoleToUser(config.roles.unwhitelisted)
-            }
+            this.sendFailureMessage(config.messages.idNotFound)
         }
-        
+
         console.log('[PA] REMOVING WHITELIST')
         await this.channel.delete()
         this.emit('finished', {
@@ -186,15 +202,37 @@ module.exports = class Whitelist {
         }
     }
 
+    removeRoleToUser(roleName) {
+        const role = this.message.guild.roles.cache.find(role => role.name === roleName)
+        if(role) {
+            return this.message.member.roles.remove(role)
+        }
+    }
+
     setGameWhitelist(userId, whitelisted) {
+        this.dbConnection.query(`UPDATE ${config.databaseTable} SET ${config.databaseColumn} = ${whitelisted} WHERE id = ${userId}`, err => {
+            if(err) {
+                throw Error(err)
+            }
+        })
+    }
+
+    setUserDiscordIdentifier(userId, discordId) {
+        this.dbConnection.query(`INSERT INTO vrp_user_ids (identifier, user_id) VALUES("discord:${discordId}", ${userId}) ON DUPLICATE KEY UPDATE identifier = "discord:${discordId}"`, err => {
+            if(err) {
+                throw Error(err)
+            }
+        })
+    }
+
+    userIdExists(userId) {
         return new Promise((resolve, reject) => {
-            const dbConnection = Game.getDatabaseConnection()
-            dbConnection.query(`UPDATE ${config.databaseTable} SET ${config.databaseColumn} = ${whitelisted} WHERE id = ${userId}`, (err, results) => {
+            this.dbConnection.query(`SELECT * FROM vrp_users WHERE id = ${userId}`, (err, results) => {
                 if(err) {
-                    return reject(err)
+                    reject(err)
                 }
 
-                return resolve(results)
+                resolve(results.length)
             })
         })
     }
@@ -208,14 +246,13 @@ module.exports = class Whitelist {
         const embed = await this.getEmbed()
             .setDescription(`
                 Bem-Vindo a nossa cidade <@${this.message.author.id}>!
-                
                 ${config.messages.success}
             `)
 
         channel.send(embed)
     }
 
-    async sendFailureMessage() {
+    async sendFailureMessage(message = config.messages.failure) {
         const channel = this.message.guild.channels.cache.find(channel => channel.name === config.failureChannel)
         if(!channel) {
             throw Error('Failure channel not found!')
@@ -224,10 +261,8 @@ module.exports = class Whitelist {
         const embed = await this.getEmbed()
             .setDescription(`
                 Você foi reprovado em nossa whitelist <@${this.message.author.id}>!
-                
                 Acertou: ${this.correctAnswers.length} / **${questions.length}**
-
-                ${config.messages.failure}
+                ${message}
             `)
             .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas!`)
 
@@ -236,7 +271,7 @@ module.exports = class Whitelist {
 
     async getUserGrade() {
         this.correctAnswers = this.answers.filter(answer => answer.correct)
-        return Math.round(this.correctAnswers.length / questions.length * 10)
+        return this.correctAnswers.length / questions.length * 10
     }
 
     getEmbed() {

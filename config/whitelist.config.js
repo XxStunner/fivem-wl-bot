@@ -49,9 +49,9 @@ module.exports = {
         whitelisted: "Civil",
         unwhitelisted: "Em espera"
     },
-    successChannel: 'aprovado',
-    failureChannel: 'recusado',
+    successChannel: '✅│aprovados',
+    failureChannel: '❌│reprovados',
     databaseTable: 'vrp_users',
     databaseColumn: 'whitelisted',
-    workChannel: 'whitelist'
+    workChannel: '📋│whitelist'
 }

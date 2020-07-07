@@ -4,10 +4,10 @@ module.exports = {
             name: "app",
             script: "./index.js",
             env: {
-                NODE_ENV: "development",
+                NODE_ENV: "DEV",
             },
             env_production: {
-                NODE_ENV: "production",
+                NODE_ENV: "PROD",
             },
             instances  : 8,
             exec_mode  : "cluster"

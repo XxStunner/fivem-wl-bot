@@ -177,23 +177,18 @@ module.exports = [
                 correct: true
             },
             {
-                title: 'Advogados',
+                title: 'San News',
                 reaction: '5️⃣',
                 correct: true
             },
             {
-                title: 'San News',
+                title: 'Mecânicos',
                 reaction: '6️⃣',
                 correct: true
             },
             {
-                title: 'Mecânicos',
-                reaction: '7️⃣',
-                correct: true
-            },
-            {
                 title: 'Civil',
-                reaction: '8️⃣',
+                reaction: '7️⃣',
                 correct: true
             },
         ],

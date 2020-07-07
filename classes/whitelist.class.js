@@ -57,7 +57,7 @@ module.exports = class Whitelist {
                     
                     ${config.messages.welcome}
                 `)
-                .setFooter(`Você tem ${config.startCooldown} minutos para iniciar a whitelist.`)
+                .setFooter(`Você tem ${config.startCooldown} minuto(s) para iniciar a whitelist.`)
 
             this.channel.send({
                 content: `<@${this.message.author.id}>`,
@@ -97,7 +97,7 @@ module.exports = class Whitelist {
 
                         ${question.answers ? `${question.answers.map(answer => `${answer.reaction} - ${answer.title}`).join('\n\n')} \n\n **Obs: espere todas as reações aparecer antes de responder**` : ``}
                     `)
-                    .setFooter(`Você tem ${question.timer} minutos para responder essa pergunta.`)
+                    .setFooter(`Você tem ${question.timer} minuto(s) para responder essa pergunta.`)
     
                 const embedMessage = await this.channel.send(embed)
 

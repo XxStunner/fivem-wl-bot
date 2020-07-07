@@ -40,12 +40,8 @@ module.exports = class Whitelist {
                     }, 
                     {
                         id: this.message.author,
-                        allow: 'VIEW_CHANNEL'
+                        allow: ['SEND_MESSAGES', 'VIEW_CHANNEL']
                     },
-                    {
-                        id: this.message.author,
-                        allow: 'SEND_MESSAGES'
-                    }
                 ]
             })
         } catch (err) {

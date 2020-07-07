@@ -3,7 +3,7 @@ const client = new Discord.Client()
 const leaveEvent = require('./events/leave.event')
 
 const commands = {
-	'wm': require('./commands/welcome.command'),
+	// 'wm': require('./commands/welcome.command'),
 	'whitelist': require('./commands/whitelist.command')
 }
 

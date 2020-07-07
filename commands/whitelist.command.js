@@ -37,7 +37,7 @@ module.exports = ({ client, message }) => {
 						date: new Date
 					}
 		
-					console.log(data) // @todo: log data into mongodb.
+					// console.log(data) // @todo: log data into mongodb.
 					
 					if(!data.passed) {
 		

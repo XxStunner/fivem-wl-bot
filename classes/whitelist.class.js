@@ -173,7 +173,7 @@ module.exports = class Whitelist {
         this.grade = await this.getUserGrade()
         this.passedWhitelist = this.grade > config.minimumGrade
 
-        const userId = this.answers.find(answer => answer.question.type === 'id').answer
+        const userId = this.answers.find(answer => answer.question.type === 'id').answer.replace(/\D+/g)
         const playerExists = await this.userIdExists(userId)
 
         if(playerExists) {

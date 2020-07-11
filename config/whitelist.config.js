@@ -31,12 +31,10 @@ module.exports = {
 
             Caso você tenha alguma dúvida, sinta-se livre para utilizar o canal de dúvidas e abuse do /ajuda in-game.
 
-            Aproveitando, conheça nosso fórum e siga-nos em nossas redes sociais:
+            ** Faça download do plugin do TeamSpeak 3 aqui: https://www.teamspeak.com/en/ **
+            ** Faça download do plugin do Plugin do tokovoip aqui: https://bit.ly/316vUSG **
 
-            - Fórum: http://brasilplayaction.com.br/
-            - Facebook: https://www.facebook.com/playactionrp
-            - Instagram: http://instagram.com/playactionrp
-            - Youtube: https://www.youtube.com/channel/UCa-buRqBUqgphVEV0GvUoVg
+            Siga o tutorial em #tutoriais.
         `,
         failure: `
             Leia nossas regras nos canais de regras.

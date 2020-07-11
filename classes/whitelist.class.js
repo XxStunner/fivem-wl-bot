@@ -280,7 +280,8 @@ module.exports = class Whitelist {
                 Acertou: ${this.correctAnswers.length} / **${questions.length}**
                 **${message}**
             `)
-            .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas.`)
+            // .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas.`)
+            .setFooter(`Você pode refazer o teste novamente a qualquer momento.`)
 
         [channel, this.channel].forEach(_channel => {
             _channel.send({

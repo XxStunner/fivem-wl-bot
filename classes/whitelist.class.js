@@ -21,7 +21,7 @@ module.exports = class Whitelist {
         } catch (err) {
             console.error(err)
         }
-        await this.destroy()
+        this.destroy()
     }
 
     async createChannel() {
@@ -260,9 +260,11 @@ module.exports = class Whitelist {
                 ${config.messages.success}
             `)
 
-        channel.send({
-            content: `<@${this.message.author.id}>`,
-            embed
+        [channel, this.channel].forEach(_channel => {
+            _channel.send({
+                content: `<@${this.message.author.id}>`,
+                embed
+            })
         })
     }
 
@@ -280,9 +282,11 @@ module.exports = class Whitelist {
             `)
             .setFooter(`Você só pode realizar a whitelist ${config.maximumTries} vezes cada ${config.cooldown / 60} horas.`)
 
-        channel.send({
-            content: `<@${this.message.author.id}>`,
-            embed
+        [channel, this.channel].forEach(_channel => {
+            _channel.send({
+                content: `<@${this.message.author.id}>`,
+                embed
+            })
         })
     }
 
@@ -291,9 +295,11 @@ module.exports = class Whitelist {
         return this.correctAnswers.length / questions.length * 10
     }
 
-    async destroy() {
-        console.log('[PA] REMOVING CHANNEL')
-        await this.channel.delete()
+    destroy() {
+        setTimeout(() => {
+            console.log('[PA] REMOVING CHANNEL')
+            this.channel.delete()
+        }, 300000)
         this.emit('finished', {
             answers: this.answers,
             grade: this.grade,

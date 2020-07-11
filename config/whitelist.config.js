@@ -1,8 +1,8 @@
 module.exports = {
     minimumGrade: 8.5,
     maximumTime: 5,
-    maximumTries: 2,
-    cooldown: 480,
+    maximumTries: 20,
+    cooldown: 5,
     startCooldown: 1,
     serverName: 'Play Action',
     serverIcon: 'http://brasilplayaction.com.br/cdn/misc/player.jpg',

@@ -1,9 +1,9 @@
 module.exports = [
-    {
-        title: 'Nome completo (vida real):',
-        limit: 40,
-        timer: 1
-    },
+    // {
+    //     title: 'Nome completo (vida real):',
+    //     limit: 40,
+    //     timer: 1
+    // },
     {
         title: 'Idade (vida real): ',
         type: 'number',
@@ -11,130 +11,130 @@ module.exports = [
         minimum: 15,
         timer: 1
     },
-    {
-        title: 'Possui microfone ?',
-        answers: [
-            {
-                title: 'Sim',
-                reaction: '👍',
-                correct: true
-            },
-            {
-                title: 'Não',
-                reaction: '👎',
-            }
-        ],
-        timer: 1
-    },
-    {
-        title: 'Horário mais ativo ?',
-        answers: [
-            {
-                title: 'Manhã',
-                reaction: '1️⃣',
-                correct: true
-            },
-            {
-                title: 'Tarde',
-                reaction: '2️⃣',
-                correct: true
-            },
-            {
-                title: 'Noite',
-                reaction: '3️⃣',
-                correct: true
-            },
-        ],
-        timer: 1
-    },
-    {
-        title: 'Frequência de jogo:',
-        answers: [
-            {
-                title: '1 - 2 horas',
-                reaction: '1️⃣',
-                correct: true
-            },
-            {
-                title: '3 - 5 horas',
-                reaction: '2️⃣',
-                correct: true
-            },
-            {
-                title: '6 - 8 horas',
-                reaction: '3️⃣',
-                correct: true
-            },
-            {
-                title: '8 horas +',
-                reaction: '4️⃣',
-                correct: true
-            },
-        ],
-        timer: 1
-    },
-    {
-        title: 'Como conheceu o servidor:',
-        answers: [
-            {
-                title: 'Lista de servidores FiveM',
-                reaction: '1️⃣',
-                correct: true
-            },
-            {
-                title: 'Amigos',
-                reaction: '2️⃣',
-                correct: true
-            },
-            {
-                title: 'Facebook',
-                reaction: '3️⃣',
-                correct: true
-            },
-            {
-                title: 'Discord',
-                reaction: '4️⃣',
-                correct: true
-            },
-            {
-                title: 'Youtube',
-                reaction: '5️⃣',
-                correct: true
-            },
-            {
-                title: 'Twitch',
-                reaction: '6️⃣',
-                correct: true
-            },
-            {
-                title: 'Instagram',
-                reaction: '7️⃣',
-                correct: true
-            },
-        ],
-        timer: 1
-    },
-    {
-        title: 'Qual plataforma você comprou seu jogo ?',
-        answers: [
-            {
-                title: 'Steam',
-                reaction: '1️⃣',
-                correct: true
-            },
-            {
-                title: 'Epic Store',
-                reaction: '2️⃣',
-                correct: true
-            },
-            {
-                title: 'Rockstar Club',
-                reaction: '3️⃣',
-                correct: true
-            },
-        ],
-        timer: 1
-    },
+    // {
+    //     title: 'Possui microfone ?',
+    //     answers: [
+    //         {
+    //             title: 'Sim',
+    //             reaction: '👍',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Não',
+    //             reaction: '👎',
+    //         }
+    //     ],
+    //     timer: 1
+    // },
+    // {
+    //     title: 'Horário mais ativo ?',
+    //     answers: [
+    //         {
+    //             title: 'Manhã',
+    //             reaction: '1️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Tarde',
+    //             reaction: '2️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Noite',
+    //             reaction: '3️⃣',
+    //             correct: true
+    //         },
+    //     ],
+    //     timer: 1
+    // },
+    // {
+    //     title: 'Frequência de jogo:',
+    //     answers: [
+    //         {
+    //             title: '1 - 2 horas',
+    //             reaction: '1️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: '3 - 5 horas',
+    //             reaction: '2️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: '6 - 8 horas',
+    //             reaction: '3️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: '8 horas +',
+    //             reaction: '4️⃣',
+    //             correct: true
+    //         },
+    //     ],
+    //     timer: 1
+    // },
+    // {
+    //     title: 'Como conheceu o servidor:',
+    //     answers: [
+    //         {
+    //             title: 'Lista de servidores FiveM',
+    //             reaction: '1️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Amigos',
+    //             reaction: '2️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Facebook',
+    //             reaction: '3️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Discord',
+    //             reaction: '4️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Youtube',
+    //             reaction: '5️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Twitch',
+    //             reaction: '6️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Instagram',
+    //             reaction: '7️⃣',
+    //             correct: true
+    //         },
+    //     ],
+    //     timer: 1
+    // },
+    // {
+    //     title: 'Qual plataforma você comprou seu jogo ?',
+    //     answers: [
+    //         {
+    //             title: 'Steam',
+    //             reaction: '1️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Epic Store',
+    //             reaction: '2️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Rockstar Club',
+    //             reaction: '3️⃣',
+    //             correct: true
+    //         },
+    //     ],
+    //     timer: 1
+    // },
     {
         title: 'ID (in-game):',
         type: 'id',
@@ -146,54 +146,54 @@ module.exports = [
         type: 'username',
         timer: 1
     },
-    {
-        title: 'Idade (personagem):',
-        type: 'number',
-        limit: 2,
-        minimum: 15,
-        timer: 1
-    },
-    {
-        title: 'Qual organização deseja participar:',
-        answers: [
-            {
-                title: 'L.S.P.D.',
-                reaction: '1️⃣',
-                correct: true
-            },
-            {
-                title: 'L.S.M.C.',
-                reaction: '2️⃣',
-                correct: true
-            },
-            {
-                title: 'Gangues',
-                reaction: '3️⃣',
-                correct: true
-            },
-            {
-                title: 'Máfias',
-                reaction: '4️⃣',
-                correct: true
-            },
-            {
-                title: 'San News',
-                reaction: '5️⃣',
-                correct: true
-            },
-            {
-                title: 'Mecânicos',
-                reaction: '6️⃣',
-                correct: true
-            },
-            {
-                title: 'Civil',
-                reaction: '7️⃣',
-                correct: true
-            },
-        ],
-        timer: 1
-    },
+    // {
+    //     title: 'Idade (personagem):',
+    //     type: 'number',
+    //     limit: 2,
+    //     minimum: 15,
+    //     timer: 1
+    // },
+    // {
+    //     title: 'Qual organização deseja participar:',
+    //     answers: [
+    //         {
+    //             title: 'L.S.P.D.',
+    //             reaction: '1️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'L.S.M.C.',
+    //             reaction: '2️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Gangues',
+    //             reaction: '3️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Máfias',
+    //             reaction: '4️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'San News',
+    //             reaction: '5️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Mecânicos',
+    //             reaction: '6️⃣',
+    //             correct: true
+    //         },
+    //         {
+    //             title: 'Civil',
+    //             reaction: '7️⃣',
+    //             correct: true
+    //         },
+    //     ],
+    //     timer: 1
+    // },
     {
         title: 'Em quais situações o atropelamento NÃO é considerado Anti-RP?',
         answers: [

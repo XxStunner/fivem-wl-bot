@@ -1,5 +1,5 @@
 module.exports = {
-    minimumGrade: 8.5,
+    minimumGrade: 7,
     maximumTime: 5,
     maximumTries: 20,
     cooldown: 5,

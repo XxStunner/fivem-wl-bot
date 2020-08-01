@@ -95,7 +95,7 @@ module.exports = class Whitelist {
         
                         ${question.title}
 
-                        ${question.answers ? `${question.answers.map(answer => `${answer.reaction} - ${answer.title}`).join('\n\n')} \n\n **Obs: espere todas as reações aparecer antes de responder.**` : ``}
+                        ${question.answers ? `${question.answers.map(answer => `${answer.reaction} - ${answer.title}`).join('\n\n')} \n\n **Obs: espere todas as reações aparecerem antes de responder.**` : ``}
                     `)
                     .setFooter(`Você tem ${question.timer} minuto(s) para responder essa pergunta.`)
     

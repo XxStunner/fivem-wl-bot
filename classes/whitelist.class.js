@@ -238,7 +238,7 @@ module.exports = class Whitelist {
 
     userIdExists(userId) {
         return new Promise((resolve, reject) => {
-            this.dbConnection.query(`SELECT * FROM vrp_users WHERE id = ${userId}`, (err, results) => {
+            this.dbConnection.query(`SELECT * FROM vrp_users WHERE id = ${userId} AND whitelisted = 0`, (err, results) => {
                 if(err) {
                     reject(err)
                 }

@@ -34,7 +34,7 @@ module.exports = {
             ** Faça download do plugin do TeamSpeak 3 aqui: https://www.teamspeak.com/en/ **
             ** Faça download do plugin do Plugin do tokovoip aqui: https://bit.ly/316vUSG **
 
-            Siga o tutorial em #tutoriais.
+            Siga o tutorial no canal tutoriais.
         `,
         failure: `
             Leia nossas regras nos canais de regras.

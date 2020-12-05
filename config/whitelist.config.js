@@ -51,5 +51,6 @@ module.exports = {
     failureChannel: '❌│reprovados',
     databaseTable: 'vrp_users',
     databaseColumn: 'whitelisted',
-    workChannel: '📋│whitelist'
+    workChannel: '📋│whitelist',
+    discordClientId: 'INSERT_CLIENT_ID_HERE'
 }
